@@ -1,5 +1,8 @@
 myletters = {}
 
+local colors_used = core.settings:get_bool("myletters.colors_used", true)
+local mydye_used = core.settings:get_bool("myletters.mydye_used", true)
+
 myletters.colors = {
 	{"black",      "Black",      "#000000"},
 	{"blue",       "Blue",       "#2000c9"},
@@ -17,6 +20,7 @@ myletters.colors = {
 	{"white",      "White",      "#ffffff"},
 	{"yellow",     "Yellow",     "#e3ff00"},
 }
+if mydye_used then
 if core.get_modpath("mydye") then
 	myletters.colors = {
 	{"black",      	"Black",      		"#000000"},
@@ -52,7 +56,7 @@ if core.get_modpath("mydye") then
 	{"orchid",		"Orchid", 			"#DA70D6"},
 	}
 end
-
+end
 local u_n_l = {"u","l"}
 local letters = {"a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"}
 
@@ -72,54 +76,55 @@ for _, b in pairs(letters) do
 		paramtype2 = "facedir",
 		groups = {cracky = 2},
 	})
-
 end
 end
 
-if core.get_modpath("mypaint") then
-local paintables = {
-	"myletters:la","myletters:lb","myletters:lc","myletters:ld","myletters:le","myletters:lf","myletters:lg","myletters:lh","myletters:li",
-"myletters:lj","myletters:lk","myletters:ll","myletters:lm","myletters:ln","myletters:lo","myletters:lp","myletters:lq","myletters:lr",
-"myletters:ls","myletters:lt","myletters:lu","myletters:lv","myletters:lw","myletters:lx","myletters:ly","myletters:lz",
-"myletters:ua","myletters:ub","myletters:uc","myletters:ud","myletters:ue","myletters:uf","myletters:ug","myletters:uh","myletters:ui",
-"myletters:uj","myletters:uk","myletters:ul","myletters:um","myletters:un","myletters:uo","myletters:up","myletters:uq","myletters:ur",
-"myletters:us","myletters:ut","myletters:uu","myletters:uv","myletters:uw","myletters:ux","myletters:uy","myletters:uz",
-}
-
-for _, a in pairs(u_n_l) do
-for _, b in pairs(letters) do
-
-for _, entry in ipairs(myletters.colors) do
-	local color = entry[1]
-	local desc = entry[2]
-	local paint = "^[colorize:"..entry[3]..":200"
-
-	core.register_node("myletters:"..a..b.."_"..color,{
-		description = desc.." "..b,
-		drawtype = "normal",
-		tiles = {"myletters_white.png"..paint,
-				"myletters_white.png"..paint,
-				"myletters_white.png"..paint,
-				"myletters_white.png"..paint,
-				"myletters_white.png"..paint,
-				"myletters_white.png"..paint.."^myletters_"..a.."_"..b..".png",
-				},
-		paramtype2 = "facedir",
-		groups = {cracky = 2, not_in_creative_inventory = 1},
-	})
-
+if colors_used then
+	
+	if core.get_modpath("mypaint") then
+		local paintables = {
+			"myletters:la","myletters:lb","myletters:lc","myletters:ld","myletters:le","myletters:lf","myletters:lg","myletters:lh","myletters:li",
+		"myletters:lj","myletters:lk","myletters:ll","myletters:lm","myletters:ln","myletters:lo","myletters:lp","myletters:lq","myletters:lr",
+		"myletters:ls","myletters:lt","myletters:lu","myletters:lv","myletters:lw","myletters:lx","myletters:ly","myletters:lz",
+		"myletters:ua","myletters:ub","myletters:uc","myletters:ud","myletters:ue","myletters:uf","myletters:ug","myletters:uh","myletters:ui",
+		"myletters:uj","myletters:uk","myletters:ul","myletters:um","myletters:un","myletters:uo","myletters:up","myletters:uq","myletters:ur",
+		"myletters:us","myletters:ut","myletters:uu","myletters:uv","myletters:uw","myletters:ux","myletters:uy","myletters:uz",
+		}
+		
+		for _, a in pairs(u_n_l) do
+		for _, b in pairs(letters) do
+		
+		for _, entry in ipairs(myletters.colors) do
+			local color = entry[1]
+			local desc = entry[2]
+			local paint = "^[colorize:"..entry[3]..":200"
+		
+			core.register_node("myletters:"..a..b.."_"..color,{
+				description = desc.." "..b,
+				drawtype = "normal",
+				tiles = {"myletters_white.png"..paint,
+						"myletters_white.png"..paint,
+						"myletters_white.png"..paint,
+						"myletters_white.png"..paint,
+						"myletters_white.png"..paint,
+						"myletters_white.png"..paint.."^myletters_"..a.."_"..b..".png",
+						},
+				paramtype2 = "facedir",
+				groups = {cracky = 2, not_in_creative_inventory = 1},
+			})
+		
+		end
+		end
+		end
+		if core.get_modpath("mypaint") then
+			local colors = {}
+			for _, entry in ipairs(myletters.colors) do
+				table.insert(colors, entry[1])
+			end
+			mypaint.register(paintables, colors)
+		end
+	end
 end
-end
-end
-if core.get_modpath("mypaint") then
-local colors = {}
-for _, entry in ipairs(myletters.colors) do
-	table.insert(colors, entry[1])
-end
-	mypaint.register(paintables, colors)
-end
-end
-
 
 
 
